@@ -1,0 +1,19 @@
+[build]
+  command = "npm run build"
+  publish = ".next"
+
+[[redirects]]
+  from = "/api"
+  to = "/.netlify/functions/api"
+  status = 200
+
+[[redirects]]
+  from = "/api/*"
+  to = "/.netlify/functions/api"
+  status = 200
+
+[functions]
+  directory = "netlify/functions"
+
+[build.environment]
+  GEMINI_API_KEY = "AIzaSyA5dRFq4TVr1Qn8u8d9zc5fzDJQ1YLZ_OY"
