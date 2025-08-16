@@ -94,13 +94,24 @@ Respond with ONLY the requested format - no explanations, no markdown, just the 
 
     console.log("[v0] Generated analysis result:", generatedText.substring(0, 200) + "...")
 
+    let cleanedText = generatedText.trim()
+
+    // Remove markdown code block formatting
+    if (cleanedText.startsWith("```json")) {
+      cleanedText = cleanedText.replace(/^```json\s*/, "").replace(/\s*```$/, "")
+    } else if (cleanedText.startsWith("```")) {
+      cleanedText = cleanedText.replace(/^```\s*/, "").replace(/\s*```$/, "")
+    }
+
+    cleanedText = cleanedText.trim()
+
     // Try to parse as JSON to validate format
     let result
     try {
-      result = JSON.parse(generatedText)
+      result = JSON.parse(cleanedText)
     } catch (parseError) {
       // If parsing fails, wrap in a simple response
-      result = { error: "Analysis completed but format issue occurred", raw_result: generatedText }
+      result = { error: "Analysis completed but format issue occurred", raw_result: cleanedText }
     }
 
     // Return the result
